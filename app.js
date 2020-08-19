@@ -3,24 +3,29 @@ const fs =require('fs');
 
 //Server
 const app = express();
+app.listen(3000);
 
-//Requests [Home]
+app.set('view engine','ejs');
+
+
+//Requests 
+//------------------------------------------------------------------------
+//[HOME]
 app.get('/',(req,res) =>{
     console.log('request='+req.url);
-    res.sendFile('./views/index.html',{root:__dirname});
+    res.render('index');
 });
 
 //[about]
 app.get('/about',(req,res) =>{
     console.log('request='+req.url);
-    res.sendFile('./views/about.html',{root:__dirname});
+  res.render('about');
 });
 
 
 //[ERROR 404]
-app.get((req,res) =>{
+app.use((req,res) =>{
     console.log('request='+req.url);
-    res.sendFile('./views/404.html',{root:__dirname});
+    res.status(404).render('404');
 });
 
-app.listen(3000);
