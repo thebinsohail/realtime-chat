@@ -1,15 +1,21 @@
 const io=require('socket.io')(3000);
 
 let msg ="Welcome to the Chat App!";
+const users ={}
+
 
 
 io.on('connection',socket=>{
+   
+    socket.on('new-user',name=>{
+            users[socket.id]=name;
+            socket.broadcast.emit('user-connected',name);
+    });
     
-    console.log('New User Connected');
-     
-    socket.on('send-chat message',message=>{
 
-        socket.broadcast.emit('chat-message',message);
+    socket.on('send-chat-message',message=>{
+
+        socket.broadcast.emit('chat-message',{message:message,name:users[socket.id]});
         
     });
    
